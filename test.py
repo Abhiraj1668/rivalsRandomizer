@@ -8,27 +8,45 @@ import os
 
 # 35% Weight: Aesthetically Pleasing
 go_look_good = [
-    "Invisible Woman", "Magik", "Luna Snow", "Black Cat", "White Fox", 
-    "Mantis", "Psylocke", "Hela", "Scarlet Witch", "Storm", "Loki", "Phoenix"
+    "Magik", "Black Cat",
+    "Psylocke", "Hela", "Scarlet Witch", "Storm"
 ]
+
+go_look_good_n = [
+    "Invisible Woman", "Luna Snow", "White Fox", 
+    "Mantis", "Loki", "Phoenix"
+]
+
 
 # 35% Weight: Fun Mechanical Kits
 go_have_fun = [
-    "Winter Soldier", "Deadpool", "Gambit", "Squirrel Girl",
-    "Adam Warlock", "Star-Lord","Moon Knight", "Namor"
+    "Winter Soldier", "Deadpool", "Squirrel Girl",
+    "Star-Lord","Moon Knight", "Namor"
+]
+
+go_have_fun_n = [
+    "Gambit", "Adam Warlock"
 ]
 
 # 15% Weight: Solid Fundamentals / Will Gladly Play
 play_tier_1 = [
     "Mister Fantastic", "Peni Parker", "Iron Man", "The Punisher",
-    "Elsa Bloodstone", "Rocket Raccoon", "Ultron"
+    "Elsa Bloodstone"
+]
+
+play_tier_1_n = [
+    "Rocket Raccoon", "Ultron"
 ]
 
 # 10% Weight: Acceptable / Situational
 play_tier_2 = [
-    "Groot", "Cloak & Dagger", "Hawkeye",
-    "Rogue", "Captain America", "Venom", "Daredevil",
+    "Groot", "Hawkeye",
+    "Rogue", "Captain America", "Daredevil",
     "Jeff the Land Shark", "Wolverine", "Emma Frost"
+]
+
+play_tier_2_n = [
+    "Cloak & Dagger", "Venom"
 ]
 
 # 5% Weight: The Hard Counters / Override
@@ -38,7 +56,12 @@ play_tier_3 = [
     "Black Panther", "Angela"
 ]
 
+play_tier_3_n = [
+    "REROLL"
+]
+
 categories = [go_look_good, go_have_fun, play_tier_1, play_tier_2, play_tier_3]
+categories_n = [go_look_good_n, go_have_fun_n, play_tier_1_n, play_tier_2_n, play_tier_3_n]
 weights = [35, 35, 15, 10, 5]
 
 class RivalsRandomizer(tk.Tk):
@@ -72,19 +95,22 @@ class RivalsRandomizer(tk.Tk):
         self.roll_button.pack(pady=30)
 
     def roll_character(self):
+        natural_random = random.randint(33, 75)
+        category_selection = random.choices([categories, categories_n], weights=[100-natural_random, natural_random], k=1)[0]
+        
         # 1. Pick the Tier based on weights
-        selected_tier = random.choices(categories, weights=weights, k=1)[0]
+        selected_tier = random.choices(category_selection, weights=weights, k=1)[0]
         
         # 2. Pick a random hero from that Tier
         hero = random.choice(selected_tier)
         
         # 3. Determine Tier Name for display
         tier_name = ""
-        if hero in go_look_good: tier_name = "Category: Aesthetically Pleasing (35%)"
-        elif hero in go_have_fun: tier_name = "Category: Fun Mechanical Kit (35%)"
-        elif hero in play_tier_1: tier_name = "Category: Solid Fundamentals (15%)"
-        elif hero in play_tier_2: tier_name = "Category: Acceptable / Situational (10%)"
-        elif hero in play_tier_3: tier_name = "Category: Hard Counter / Override (5%)"
+        if hero in go_look_good or hero in go_look_good_n: tier_name = "Category: Aesthetically Pleasing (35%)"
+        elif hero in go_have_fun or hero in go_have_fun_n: tier_name = "Category: Fun Mechanical Kit (35%)"
+        elif hero in play_tier_1 or hero in play_tier_1_n: tier_name = "Category: Solid Fundamentals (15%)"
+        elif hero in play_tier_2 or hero in play_tier_2_n: tier_name = "Category: Acceptable / Situational (10%)"
+        elif hero in play_tier_3 or hero in play_tier_3_n: tier_name = "Category: Hard Counter / Override (5%)"
 
         # 4. Update UI
         self.header.config(text="Your Hero Is:")
