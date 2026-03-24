@@ -95,6 +95,25 @@ class RivalsRandomizer(tk.Tk):
         self.roll_button.pack(pady=30)
 
     def roll_character(self):
+        # TODO: ADD THIS FOR BETTER RANDOMIZATION FOR EQUAL DISTRIBUTION
+        # masterList = []
+        # masterWeights = []
+        # for i in range(25, 40):
+        #   natural_random = random.randint(35, 75)
+        
+        # for i in range(0, 5):
+        #    masterList.extend(categories[i])
+        #    for j in range(0, len(categories[i])):
+        #       masterWeights.append((100 - natural_random) + weights[i])
+        #    masterList.extend(categories_n[i])
+        #    for j in range(0, len(categories_n[i])):
+        #       masterWeights.append(natural_random + weights[i])
+    
+        # # print(f"{masterList}\r\n{masterWeights}")
+        # # 2. Pick a random hero from that Tier
+        # hero = random.choices(masterList, weights=masterWeights, k=1)[0]
+
+        
         natural_random = random.randint(33, 75)
         category_selection = random.choices([categories, categories_n], weights=[100-natural_random, natural_random], k=1)[0]
         
